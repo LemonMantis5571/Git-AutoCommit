@@ -27,8 +27,9 @@ feat: add user login endpoint
 Here is the diff:
 """
 
-def get_staged_diff():
-    """Fetches the staged changes from git."""
+
+def get_staged_diff(max_lines=100):
+    """Fetches the staged changes from git, truncated if too large."""
     try:
         result = subprocess.run(
             ["git", "diff", "--staged"],
@@ -38,10 +39,19 @@ def get_staged_diff():
             errors='replace',
             check=True
         )
-        return result.stdout
+        diff = result.stdout
+
+        # Truncate if too long
+        lines = diff.split('\n')
+        if len(lines) > max_lines:
+            diff = '\n'.join(lines[:max_lines])
+            diff += f"\n\n[... {len(lines) - max_lines} more lines truncated ...]"
+
+        return diff
     except subprocess.CalledProcessError as e:
         print(f"Error running 'git diff': {e.stderr}", file=sys.stderr)
         return None
+
 
 def generate_commit_message(diff_text):
     """Sends the diff to the Gemini API and gets a suggestion."""
@@ -52,26 +62,27 @@ def generate_commit_message(diff_text):
     try:
         # Create the prompt
         prompt = f"{SYSTEM_PROMPT}\n\n{diff_text}"
-        
+
         # Generate commit message
         response = client.models.generate_content(
             model="gemini-2.5-flash",
             contents=prompt,
         )
-        
+
         # Clean up the response
         message = response.text.strip().replace("`", "").replace("**", "")
         return message
-        
+
     except Exception as e:
         print(f"Error calling Gemini API: {e}", file=sys.stderr)
         sys.exit(1)
+
 
 if __name__ == "__main__":
     diff = get_staged_diff()
     if diff is None:
         sys.exit(1)
-    
+
     # Generate and print the commit message
     message = generate_commit_message(diff)
     print(message)
