@@ -9,7 +9,7 @@ if not api_key:
     print("Error: api_key environment variable not set.")
     sys.exit(1)
 
-# Initialize Gemini client
+
 client = genai.Client(api_key=api_key)
 
 SYSTEM_PROMPT = """You are an expert programmer who writes concise and professional git commit messages.
@@ -34,6 +34,8 @@ def get_staged_diff():
             ["git", "diff", "--staged"],
             capture_output=True,
             text=True,
+            encoding='utf-8',
+            errors='replace',
             check=True
         )
         return result.stdout
