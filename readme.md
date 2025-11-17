@@ -21,7 +21,7 @@ Automatically generate conventional commit messages using Google's Gemini AI bas
 
 ```bash
 git clone https://github.com/LemonMantis5571/Git-AutoCommit.git
-cd auto-commit-message
+cd Git-AutoCommit
 ```
 
 ### 2. Install Required Package
@@ -64,21 +64,21 @@ export api_key="YOUR_GEMINI_API_KEY"
 
 ### 4. Create the Git Alias
 
-Run this command, replacing the path with the actual location of `suggestCommit.py`:
+Run this command, replacing the path with the actual location of your cloned repository:
 
-**Windows:**
+**Windows (Git Bash):**
 ```bash
-git config --global alias.aic '!_f() { MSG=$(python "C:/path/to/auto-commit-message/suggestCommit.py" 2>&1); if [ $? -eq 0 ]; then git commit -m "$MSG"; else echo "Error: $MSG"; fi; }; _f'
+git config --global alias.aic '!python "C:/Users/YourName/Documents/Git-AutoCommit/suggestCommit.py" | git commit -F -'
 ```
 
 **Linux/Mac:**
 ```bash
-git config --global alias.aic '!_f() { MSG=$(python3 "/path/to/auto-commit-message/suggestCommit.py" 2>&1); if [ $? -eq 0 ]; then git commit -m "$MSG"; else echo "Error: $MSG"; fi; }; _f'
+git config --global alias.aic '!python3 "$HOME/Git-AutoCommit/suggestCommit.py" | git commit -F -'
 ```
 
 **Example for Windows:**
 ```bash
-git config --global alias.aic '!_f() { MSG=$(python "C:/Users/YourName/Documents/auto-commit-message/suggestCommit.py" 2>&1); if [ $? -eq 0 ]; then git commit -m "$MSG"; else echo "Error: $MSG"; fi; }; _f'
+git config --global alias.aic '!python "C:/Users/lemonmantis/Documents/Git-AutoCommit/suggestCommit.py" | git commit -F -'
 ```
 
 ## Usage
@@ -129,6 +129,10 @@ The generated messages follow the [Conventional Commits](https://www.conventiona
 
 Verify the variable is set:
 ```bash
+# Windows (Command Prompt)
+echo %api_key%
+
+# Windows (Git Bash) / Linux / Mac
 echo $api_key
 ```
 
@@ -146,18 +150,34 @@ git add <files>
 git aic
 ```
 
-### Script path not found
+### "can't find '__main__' module" or Script path not found
 
-Make sure to use the absolute path to `suggestCommit.py` in your alias. On Windows, use forward slashes (`/`) not backslashes (`\`).
+Make sure to use the correct path to `suggestCommit.py` (not just the folder name) in your alias:
+- **Correct**: `C:/Users/YourName/Documents/Git-AutoCommit/suggestCommit.py`
+- **Incorrect**: `C:/Users/YourName/Documents/Git-AutoCommit`
+
+On Windows, use forward slashes (`/`) not backslashes (`\`) in the git config.
 
 ### Alias already exists
 
 Remove the old alias first:
 ```bash
-git config --global --unset-all alias.aic
+git config --global --unset alias.aic
 ```
 
 Then create it again with the correct path.
+
+### "Aborting commit due to empty commit message"
+
+This usually means:
+1. The Python script path is incorrect
+2. The API key is not set properly
+3. There's an error in the script execution
+
+Check the script runs correctly by testing it directly:
+```bash
+python "C:/path/to/Git-AutoCommit/suggestCommit.py"
+```
 
 ## Uninstall
 
@@ -175,4 +195,10 @@ setx api_key ""
 
 **Linux/Mac:** Remove the export line from your `~/.bashrc` or `~/.zshrc`
 
+## Contributing
 
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is open source and available under the MIT License.
