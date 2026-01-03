@@ -1,0 +1,11 @@
+# Example configuration file for git-autocommit
+# Copy this to ~/.gitcommit.yml or .gitcommit.yml in your project root
+
+# Google Gemini model to use
+model: gemini-2.0-flash-exp
+
+# Maximum number of diff lines before summarization kicks in
+max_diff_lines: 300
+
+# Environment variable name for API key
+api_key_env: api_key
