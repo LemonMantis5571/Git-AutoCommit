@@ -1,2 +1,0 @@
-[console_scripts]
-git-suggest = git_autocommit.cli:main

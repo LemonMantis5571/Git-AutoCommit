@@ -2,3 +2,10 @@
 .venv.local
 .venv/
 __pycache__/
+
+# Python build artifacts
+*.egg-info/
+build/
+dist/
+*.pyc
+*.pyo
