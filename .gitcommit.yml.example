@@ -2,7 +2,7 @@
 # Copy this to ~/.gitcommit.yml or .gitcommit.yml in your project root
 
 # Google Gemini model to use
-model: gemini-2.0-flash-exp
+model: gemini-2.5-flash
 
 # Maximum number of diff lines before summarization kicks in
 max_diff_lines: 300

@@ -44,8 +44,8 @@ def check_git():
 
 
 def install_package():
-    """Install the git-autocommit package"""
-    print("\nInstalling git-autocommit package...")
+    """Install the git-suggest package"""
+    print("\nInstalling git-suggest package...")
     try:
         subprocess.run(
             [sys.executable, "-m", "pip", "install", "-e", "."],
@@ -106,7 +106,61 @@ def setup_api_key():
             print('   setx api_key "YOUR_API_KEY"')
         else:
             print("   Then add to your shell profile (~/.bashrc or ~/.zshrc):")
-            print('   export api_key="YOUR_API_KEY"')
+            print('   export api_key=\"YOUR_API_KEY\"')
+
+
+def setup_model_config():
+    """Prompt user to select a Gemini model"""
+    print()
+    print("=" * 40)
+    print("Model Configuration")
+    print("=" * 40)
+    
+    # Available models as of January 2026
+    models = {
+        '1': ('gemini-2.5-flash', 'Fast, efficient, everyday tasks (Recommended)'),
+        '2': ('gemini-2.5-pro', 'Deep reasoning, complex analysis'),
+        '3': ('gemini-2.5-flash-lite', 'High throughput, cost efficient'),
+        '4': ('gemini-3-flash-preview', 'Latest experimental, fast performance'),
+        '5': ('gemini-3-pro-preview', 'Latest experimental, advanced reasoning'),
+    }
+    
+    print("\nAvailable Gemini models:")
+    for key, (model_name, description) in models.items():
+        print(f"  {key}. {model_name:<25} - {description}")
+    
+    print()
+    choice = input("Select a model (1-5) [default: 1]: ").strip() or '1'
+    
+    if choice not in models:
+        print("Invalid choice, using default: gemini-2.5-flash")
+        choice = '1'
+    
+    selected_model, description = models[choice]
+    print(f"\n✓ Selected: {selected_model}")
+    
+    # Create .gitcommit.yml in home directory
+    config_path = Path.home() / '.gitcommit.yml'
+    config_content = f"""# Git-Suggest Configuration
+# Google Gemini model to use
+model: {selected_model}
+
+# Maximum number of diff lines before summarization kicks in
+max_diff_lines: 300
+
+# Environment variable name for API key
+api_key_env: api_key
+"""
+    
+    try:
+        with open(config_path, 'w') as f:
+            f.write(config_content)
+        print(f"✓ Configuration saved to {config_path}")
+    except Exception as e:
+        print(f"⚠️  Could not save config file: {e}")
+        print(f"   You can manually create {config_path} with:")
+        print(f"   model: {selected_model}")
+
 
 
 def setup_git_alias():
@@ -117,7 +171,7 @@ def setup_git_alias():
     if setup in ['y', 'yes']:
         try:
             subprocess.run(
-                ["git", "config", "--global", "alias.aic", "!git-suggest"],
+                ["git", "config", "--global", "alias.aic", "!python -m git_suggest"],
                 check=True
             )
             print("✓ Git alias 'git aic' created!")
@@ -131,10 +185,10 @@ def print_usage():
     print("Installation Complete!")
     print("=" * 40)
     print("\nUsage:")
-    print("  git-suggest               # Generate and commit")
-    print("  git-suggest --dry-run     # Preview message only")
-    print("  git-suggest --interactive # Review before committing")
-    print("  git-suggest --help        # Show all options")
+    print("  python -m git_suggest               # Generate and commit")
+    print("  python -m git_suggest --dry-run     # Preview message only")
+    print("  python -m git_suggest --interactive # Review before committing")
+    print("  python -m git_suggest --help        # Show all options")
     print("\nOr use the git alias:")
     print("  git aic")
     print()
@@ -159,6 +213,9 @@ def main():
     
     # Setup API key
     setup_api_key()
+    
+    # Setup model configuration
+    setup_model_config()
     
     # Setup git alias
     setup_git_alias()

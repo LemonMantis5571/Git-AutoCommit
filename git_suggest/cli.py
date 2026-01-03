@@ -84,7 +84,7 @@ For more information, visit: https://github.com/LemonMantis5571/Git-AutoCommit
     
     args = parser.parse_args()
     
-    # Load configuration
+  
     config = Config(args.config)
     
     # Get API key
@@ -97,7 +97,7 @@ For more information, visit: https://github.com/LemonMantis5571/Git-AutoCommit
         print("\nOr add it to your .gitcommit.yml config file.", file=sys.stderr)
         sys.exit(1)
     
-    # Get staged changes
+   
     if args.verbose:
         print("Fetching staged changes...")
     
@@ -109,9 +109,10 @@ For more information, visit: https://github.com/LemonMantis5571/Git-AutoCommit
         print("No staged changes found. Use 'git add' to stage files.", file=sys.stderr)
         sys.exit(0)
     
-    # Initialize AI client
+    
     try:
-        client = GeminiClient(api_key)
+        model = config.get('model', 'gemini-2.5-flash')
+        client = GeminiClient(api_key, model=model)
     except ValueError as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
@@ -124,7 +125,7 @@ For more information, visit: https://github.com/LemonMantis5571/Git-AutoCommit
     if not message:
         sys.exit(1)
     
-    # Handle different modes
+    
     if args.dry_run:
         print(message)
         sys.exit(0)
@@ -146,7 +147,7 @@ For more information, visit: https://github.com/LemonMantis5571/Git-AutoCommit
                 print("Failed to regenerate message.", file=sys.stderr)
                 sys.exit(1)
     
-    # Commit with the message
+   
     if args.verbose:
         print(f"Committing with message: {message}")
     

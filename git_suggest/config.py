@@ -1,5 +1,3 @@
-"""Configuration management for git_autocommit."""
-
 import os
 from pathlib import Path
 
@@ -11,17 +9,16 @@ except ImportError:
 
 
 DEFAULT_CONFIG = {
-    'model': 'gemini-2.0-flash-exp',
+    'model': 'gemini-2.5-flash',
     'max_diff_lines': 300,
     'api_key_env': 'api_key',
 }
 
 
 class Config:
-    """Configuration manager for git_autocommit."""
     
     def __init__(self, config_path=None):
-        """Initialize configuration."""
+        
         self.config = DEFAULT_CONFIG.copy()
         
         # Try to load from config file

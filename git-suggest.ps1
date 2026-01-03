@@ -12,4 +12,4 @@
 #>
 
 # Pass all arguments to the Python module
-python -m git_autocommit $args
+python -m git_suggest $args

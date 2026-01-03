@@ -1,0 +1,2 @@
+[console_scripts]
+git-suggest = git_suggest.cli:main

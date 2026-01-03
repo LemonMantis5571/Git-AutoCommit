@@ -1,3 +1,61 @@
+Metadata-Version: 2.4
+Name: git-suggest
+Version: 1.0.0
+Summary: AI-powered git commit message generator using Google Gemini
+Home-page: https://github.com/LemonMantis5571/Git-AutoCommit
+Author: LemonMantis5571
+Project-URL: Bug Reports, https://github.com/LemonMantis5571/Git-AutoCommit/issues
+Project-URL: Source, https://github.com/LemonMantis5571/Git-AutoCommit
+Keywords: git commit ai gemini automation conventional-commits
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Version Control :: Git
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: annotated-types==0.7.0
+Requires-Dist: anyio==4.11.0
+Requires-Dist: cachetools==6.2.2
+Requires-Dist: certifi==2025.11.12
+Requires-Dist: charset-normalizer==3.4.4
+Requires-Dist: google-auth==2.43.0
+Requires-Dist: google-genai==1.50.1
+Requires-Dist: h11==0.16.0
+Requires-Dist: httpcore==1.0.9
+Requires-Dist: httpx==0.28.1
+Requires-Dist: idna==3.11
+Requires-Dist: pyasn1==0.6.1
+Requires-Dist: pyasn1_modules==0.4.2
+Requires-Dist: pydantic==2.12.4
+Requires-Dist: pydantic_core==2.41.5
+Requires-Dist: requests==2.32.5
+Requires-Dist: rsa==4.9.1
+Requires-Dist: sniffio==1.3.1
+Requires-Dist: tenacity==9.1.2
+Requires-Dist: typing-inspection==0.4.2
+Requires-Dist: typing_extensions==4.15.0
+Requires-Dist: urllib3==2.5.0
+Requires-Dist: websockets==15.0.1
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
 # Git-AutoCommit 🤖
 
 AI-powered git commit message generator using Google's Gemini AI. Automatically create professional, conventional commit messages from your staged changes.
@@ -45,11 +103,8 @@ The installation script will:
 - Check for Python and Git
 - Install the package and dependencies
 - Set up your API key (environment variable)
-- Let you choose a Gemini model (gemini-2.5-flash, gemini-2.5-pro, etc.)
 - Create the `git aic` alias (optional)
 - Show usage instructions
-
-**After installation, use:** `python -m git_suggest`
 
 #### Option 2: Manual Installation
 
@@ -69,7 +124,7 @@ setx api_key "YOUR_GEMINI_API_KEY"
 export api_key="YOUR_GEMINI_API_KEY"
 
 # Optional: Create git alias
-git config --global alias.aic '!python -m git_suggest'
+git config --global alias.aic '!git-suggest'
 ```
 
 #### Option 3: Install from GitHub (Coming Soon)
@@ -87,18 +142,18 @@ pip install git+https://github.com/LemonMantis5571/Git-AutoCommit.git
 git add .
 
 # Generate and commit with AI message
-python -m git_suggest
+git-suggest
 ```
 
 ### CLI Options
 
 ```bash
-python -m git_suggest --help              # Show help message
-python -m git_suggest --version           # Show version
-python -m git_suggest --dry-run           # Preview message without committing
-python -m git_suggest --interactive       # Review/edit message before committing
-python -m git_suggest --config PATH       # Use custom config file
-python -m git_suggest --verbose           # Enable verbose output
+git-suggest --help              # Show help message
+git-suggest --version           # Show version
+git-suggest --dry-run           # Preview message without committing
+git-suggest --interactive       # Review/edit message before committing
+git-suggest --config PATH       # Use custom config file
+git-suggest --verbose           # Enable verbose output
 ```
 
 ### Using the Git Alias
@@ -107,7 +162,7 @@ If you set up the `git aic` alias during installation:
 
 ```bash
 git add .
-git aic                         # Same as python -m git_suggest
+git aic                         # Same as git-suggest
 ```
 
 ### Interactive Mode
@@ -115,7 +170,7 @@ git aic                         # Same as python -m git_suggest
 Interactive mode lets you review, edit, or regenerate the message before committing:
 
 ```bash
-python -m git_suggest --interactive
+git-suggest --interactive
 ```
 
 You'll see:
@@ -141,7 +196,7 @@ Options: [c]ommit, [e]dit, [r]egenerate, [a]bort:
 Preview the AI-generated message without committing:
 
 ```bash
-python -m git_suggest --dry-run
+git-suggest --dry-run
 ```
 
 Output:
@@ -232,7 +287,7 @@ python -m git_suggest
 ### Example 1: Quick Commit
 ```bash
 $ git add src/auth.py
-$ python -m git_suggest
+$ git-suggest
 [main abc1234] feat: add JWT authentication
  1 file changed, 45 insertions(+)
 ```
@@ -240,7 +295,7 @@ $ python -m git_suggest
 ### Example 2: Review Before Committing
 ```bash
 $ git add .
-$ python -m git_suggest --interactive
+$ git-suggest --interactive
 ============================================================
 Generated commit message:
 ============================================================
@@ -257,7 +312,7 @@ Options: [c]ommit, [e]dit, [r]egenerate, [a]bort: c
 ### Example 3: Preview Only
 ```bash
 $ git add README.md
-$ python -m git_suggest --dry-run
+$ git-suggest --dry-run
 docs: update installation instructions
 ```
 

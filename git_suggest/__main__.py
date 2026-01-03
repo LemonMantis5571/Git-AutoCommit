@@ -1,4 +1,3 @@
-"""Entry point for running git_autocommit as a module."""
 
 from .cli import main
 

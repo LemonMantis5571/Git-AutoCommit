@@ -15,7 +15,7 @@ if requirements_file.exists():
         requirements = [line.strip() for line in f if line.strip() and not line.startswith('#')]
 
 setup(
-    name="git-autocommit",
+    name="git-suggest",
     version="1.0.0",
     author="LemonMantis5571",
     description="AI-powered git commit message generator using Google Gemini",
@@ -40,7 +40,7 @@ setup(
     install_requires=requirements,
     entry_points={
         'console_scripts': [
-            'git-suggest=git_autocommit.cli:main',
+            'git-suggest=git_suggest.cli:main',
         ],
     },
     keywords="git commit ai gemini automation conventional-commits",

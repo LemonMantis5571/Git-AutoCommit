@@ -81,7 +81,7 @@ def get_staged_diff_summary():
 
 
 def commit_with_message(message):
-    """Commits staged changes with the provided message."""
+  
     try:
         result = subprocess.run(
             ["git", "commit", "-m", message],
